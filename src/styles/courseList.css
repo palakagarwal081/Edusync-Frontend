@@ -1,0 +1,65 @@
+.course-card {
+    border-radius: 15px;
+    transition: all 0.3s ease;
+    background: linear-gradient(145deg, #ffffff 0%, #f8f9fa 100%);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.course-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+}
+
+.course-title {
+    font-size: 1.25rem;
+    font-weight: bold;
+    color: #0d6efd;
+}
+
+.course-description {
+    font-size: 0.95rem;
+    line-height: 1.5;
+    color: #6c757d;
+}
+
+.course-info-icon {
+    font-size: 1.1rem;
+    color: #0d6efd;
+}
+
+.course-info-text {
+    font-size: 0.875rem;
+    color: #6c757d;
+}
+
+.course-button {
+    border-radius: 8px;
+    background: linear-gradient(45deg, #0d6efd 0%, #0a58ca 100%);
+    border: none;
+    box-shadow: 0 2px 4px rgba(13, 110, 253, 0.2);
+    padding: 0.5rem 1rem;
+    width: 100%;
+}
+
+.course-button:hover {
+    background: linear-gradient(45deg, #0a58ca 0%, #084298 100%);
+    box-shadow: 0 4px 8px rgba(13, 110, 253, 0.3);
+}
+
+.enrolled-badge {
+    padding: 0.5rem 1rem;
+    font-size: 0.8rem;
+    background-color: #198754;
+    color: white;
+    border-radius: 6px;
+}
+
+.empty-state-icon {
+    font-size: 4rem;
+    color: #0d6efd;
+}
+
+.empty-state-text {
+    font-size: 1.25rem;
+    color: #6c757d;
+} 
