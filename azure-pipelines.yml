@@ -2,7 +2,7 @@ trigger:
 - main
 
 pool:
-  vmImage: ubuntu-latest
+  vmImage: 'ubuntu-latest'
 
 steps:
 - task: NodeTool@0
@@ -12,5 +12,5 @@ steps:
 
 - script: |
     npm install
-    CI=false npm run build
-  displayName: 'npm install and build with CI=false'
+    npm run build
+  displayName: 'npm install and build'
