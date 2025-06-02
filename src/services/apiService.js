@@ -5,7 +5,7 @@ import axios from "axios";
 const API = axios.create({
   //   baseURL: config.API_BASE_URL,
   baseURL:
-    "https://edusyncbackendapp-epefcafwarh0e7g6.centralindia-01.azurewebsites.net",
+    "https://edusyncbackendapp-epefcafwarh0e7g6.centralindia-01.azurewebsites.net/api",
   // "http://localhost:5186/api",
   headers: {
     "Content-Type": "application/json",
