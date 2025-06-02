@@ -10,8 +10,8 @@ function Register() {
         confirmPassword: '',
         role: 'Student'
     });
-    const [showPassword, setShowPassword] = useState(false);
-    const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+    const [showPassword] = useState(false);
+    const [showConfirmPassword] = useState(false);
     const [error, setError] = useState('');
     const navigate = useNavigate();
 
