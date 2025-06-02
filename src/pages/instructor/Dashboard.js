@@ -174,8 +174,7 @@
 // }
 
 // export default InstructorDashboard;
-
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import { Link } from "react-router-dom";
 import courseService from "../../services/courseService";
 
@@ -184,19 +183,10 @@ function InstructorDashboard() {
   const [otherCourses, setOtherCourses] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
-  const [deletingCourseId, setDeletingCourseId] = useState(null);
 
-  // Parse user from localStorage safely
-  const currentUser = React.useMemo(() => {
-    try {
-      return JSON.parse(localStorage.getItem("user"));
-    } catch {
-      return null;
-    }
-  }, []);
-  const currentUserId = currentUser?.userId;
+  const currentUserId = localStorage.getItem("userId");
 
-  const fetchCourses = async () => {
+  const fetchCourses = useCallback(async () => {
     try {
       setLoading(true);
       setError("");
@@ -216,7 +206,6 @@ function InstructorDashboard() {
       console.error("Error fetching courses:", err);
       setError(
         err?.response?.data?.message ||
-          err.message ||
           "Failed to load courses. Please try again later."
       );
       setMyCourses([]);
@@ -224,16 +213,13 @@ function InstructorDashboard() {
     } finally {
       setLoading(false);
     }
-  };
+  }, [currentUserId]);
 
   useEffect(() => {
     if (currentUserId) {
       fetchCourses();
-    } else {
-      setLoading(false);
-      setError("User not logged in.");
     }
-  }, [currentUserId]);
+  }, [currentUserId, fetchCourses]);
 
   const handleDeleteCourse = async (courseId) => {
     if (
@@ -242,18 +228,11 @@ function InstructorDashboard() {
       )
     ) {
       try {
-        setDeletingCourseId(courseId);
         await courseService.deleteCourse(courseId);
-        await fetchCourses();
+        fetchCourses();
       } catch (err) {
         console.error("Error deleting course:", err);
-        setError(
-          err?.response?.data?.message ||
-            err.message ||
-            "Failed to delete course. Please try again later."
-        );
-      } finally {
-        setDeletingCourseId(null);
+        setError("Failed to delete course. Please try again later.");
       }
     }
   };
@@ -327,22 +306,8 @@ function InstructorDashboard() {
                     <button
                       onClick={() => handleDeleteCourse(course.courseId)}
                       className="btn btn-outline-danger btn-sm"
-                      disabled={deletingCourseId === course.courseId}
                     >
-                      {deletingCourseId === course.courseId ? (
-                        <>
-                          <span
-                            className="spinner-border spinner-border-sm me-1"
-                            role="status"
-                            aria-hidden="true"
-                          ></span>
-                          Deleting...
-                        </>
-                      ) : (
-                        <>
-                          <i className="bi bi-trash me-1"></i> Delete
-                        </>
-                      )}
+                      <i className="bi bi-trash me-1"></i> Delete
                     </button>
                   </div>
                 </div>
@@ -403,4 +368,3 @@ function InstructorDashboard() {
 }
 
 export default InstructorDashboard;
-
