@@ -11,22 +11,7 @@ const courseService = {
       throw error;
     }
   },
-
-  // getMyCourses: async () => {
-  //     try {
-  //         console.log('Fetching instructor courses...');
-  //         const res = await API.get('/courses/my');
-  //         console.log('Instructor courses response:', res);
-  //         console.log('Response data:', res.data);
-  //         console.log('Response data type:', typeof res.data);
-  //         console.log('Is Array?', Array.isArray(res.data));
-  //         // return Array.isArray(res.data) ? res.data : [];
-  //         return Array.isArray(res.data.courses) ? res.data.courses : [];
-
-  //     } catch (error) {
-  //         console.error('Error fetching instructor courses:', error);
-  //         throw error;
-  //     }
+  
   getMyCourses: async () => {
     try {
       console.log('Fetching instructor courses...');

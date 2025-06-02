@@ -5,7 +5,7 @@ import axios from "axios";
 const API = axios.create({
   //   baseURL: config.API_BASE_URL,
   baseURL:
-    "edusyncbackendapp-epefcafwarh0e7g6.centralindia-01.azurewebsites.net/api",
+    "edusyncbackendapp-epefcafwarh0e7g6.centralindia-01.azurewebsites.net",
   // "http://localhost:5186/api",
   headers: {
     "Content-Type": "application/json",
@@ -58,7 +58,7 @@ API.interceptors.request.use(
           config.headers["Content-Type"] = "application/json";
 
           // Log the processed request data
-          console.warn("🔄 COURSE UPDATE REQUEST DETAILS", {
+          console.warn("COURSE UPDATE REQUEST DETAILS", {
             courseId: config.url.split("/courses/")[1],
             requestData: {
               ...config.data,
@@ -72,7 +72,7 @@ API.interceptors.request.use(
           });
 
           // Log the final request body
-          console.warn("📦 FINAL REQUEST BODY:", JSON.stringify(config.data));
+          console.warn("FINAL REQUEST BODY:", JSON.stringify(config.data));
         }
       }
     }
@@ -80,7 +80,7 @@ API.interceptors.request.use(
     return config;
   },
   (error) => {
-    console.error("❌ REQUEST ERROR:", error);
+    console.error("REQUEST ERROR:", error);
     return Promise.reject(error);
   }
 );
@@ -89,7 +89,7 @@ API.interceptors.request.use(
 API.interceptors.response.use(
   (response) => {
     // Log successful responses in detail
-    console.warn("✅ API RESPONSE DETAILS", {
+    console.warn("API RESPONSE DETAILS", {
       url: response.config.url,
       method: response.config.method,
       status: response.status,
@@ -101,7 +101,7 @@ API.interceptors.response.use(
       response.config.url.includes("/courses/") &&
       response.config.method === "put"
     ) {
-      console.warn("🔄 COURSE UPDATE RESPONSE DETAILS", {
+      console.warn("COURSE UPDATE RESPONSE DETAILS", {
         courseId: response.config.url.split("/courses/")[1],
         responseData: {
           ...response.data,
@@ -123,7 +123,7 @@ API.interceptors.response.use(
       const status = error.response.status;
       const data = error.response.data;
 
-      console.error("❌ API ERROR DETAILS:", {
+      console.error("API ERROR DETAILS:", {
         status,
         data,
         url: error.config.url,
@@ -179,7 +179,7 @@ const apiService = {
     try {
       // Ensure data is properly stringified for JSON
       const processedData = JSON.parse(JSON.stringify(data));
-      console.warn("📤 POST REQUEST:", {
+      console.warn("POST REQUEST:", {
         url,
         data: processedData,
       });
@@ -200,7 +200,7 @@ const apiService = {
         };
 
         // Log the processed data
-        console.warn("📤 COURSE UPDATE PUT REQUEST:", {
+        console.warn("COURSE UPDATE PUT REQUEST:", {
           url,
           originalData: data,
           processedData: {
@@ -216,14 +216,14 @@ const apiService = {
 
         // Ensure data is properly stringified for JSON
         const stringifiedData = JSON.stringify(processedData);
-        console.warn("📦 STRINGIFIED REQUEST DATA:", stringifiedData);
+        console.warn("STRINGIFIED REQUEST DATA:", stringifiedData);
 
         return await API.put(url, JSON.parse(stringifiedData));
       }
 
       // For non-course updates, use standard processing
       const processedData = JSON.parse(JSON.stringify(data));
-      console.warn("📤 PUT REQUEST:", {
+      console.warn("PUT REQUEST:", {
         url,
         data: processedData,
       });
