@@ -344,11 +344,11 @@ function CourseForm() {
         courseId: isEdit ? courseId : undefined,
       };
 
-      let response;
+    //   let response;
       if (isEdit) {
-        response = await courseService.updateCourse(courseId, courseData);
+        await courseService.updateCourse(courseId, courseData);
       } else {
-        response = await courseService.createCourse(courseData);
+        await courseService.createCourse(courseData);
       }
 
       setSuccessMessage("Course saved successfully!");

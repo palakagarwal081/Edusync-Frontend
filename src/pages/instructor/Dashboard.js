@@ -184,8 +184,17 @@ function InstructorDashboard() {
   const [otherCourses, setOtherCourses] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+  const [deletingCourseId, setDeletingCourseId] = useState(null);
 
-  const currentUserId = localStorage.getItem("userId");
+  // Parse user from localStorage safely
+  const currentUser = React.useMemo(() => {
+    try {
+      return JSON.parse(localStorage.getItem("user"));
+    } catch {
+      return null;
+    }
+  }, []);
+  const currentUserId = currentUser?.userId;
 
   const fetchCourses = async () => {
     try {
@@ -207,6 +216,7 @@ function InstructorDashboard() {
       console.error("Error fetching courses:", err);
       setError(
         err?.response?.data?.message ||
+          err.message ||
           "Failed to load courses. Please try again later."
       );
       setMyCourses([]);
@@ -219,6 +229,9 @@ function InstructorDashboard() {
   useEffect(() => {
     if (currentUserId) {
       fetchCourses();
+    } else {
+      setLoading(false);
+      setError("User not logged in.");
     }
   }, [currentUserId]);
 
@@ -229,11 +242,18 @@ function InstructorDashboard() {
       )
     ) {
       try {
+        setDeletingCourseId(courseId);
         await courseService.deleteCourse(courseId);
-        fetchCourses();
+        await fetchCourses();
       } catch (err) {
         console.error("Error deleting course:", err);
-        setError("Failed to delete course. Please try again later.");
+        setError(
+          err?.response?.data?.message ||
+            err.message ||
+            "Failed to delete course. Please try again later."
+        );
+      } finally {
+        setDeletingCourseId(null);
       }
     }
   };
@@ -307,8 +327,22 @@ function InstructorDashboard() {
                     <button
                       onClick={() => handleDeleteCourse(course.courseId)}
                       className="btn btn-outline-danger btn-sm"
+                      disabled={deletingCourseId === course.courseId}
                     >
-                      <i className="bi bi-trash me-1"></i> Delete
+                      {deletingCourseId === course.courseId ? (
+                        <>
+                          <span
+                            className="spinner-border spinner-border-sm me-1"
+                            role="status"
+                            aria-hidden="true"
+                          ></span>
+                          Deleting...
+                        </>
+                      ) : (
+                        <>
+                          <i className="bi bi-trash me-1"></i> Delete
+                        </>
+                      )}
                     </button>
                   </div>
                 </div>
